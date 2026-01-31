@@ -637,14 +637,22 @@ function closeFormationModal() {
 }
 
 // ३. डाटा सेभ गर्ने (Submit) फङ्सन
-// यो लाइन नम्बर ६४१ तिरबाट सुरु गर्नुहोस्
+// Line 641 देखि सुरु हुने भागलाई यसले बदल्नुहोस्
 const formationForm = document.getElementById('formationForm');
 
 if (formationForm) {
-    formationForm.addEventListener('submit', async function(e) {
+    formationForm.addEventListener('submit', async function(e) { // 'async' यहाँ हुनैपर्छ
         e.preventDefault();
-        console.log("Form submitted!");
-        // यहाँ भित्र मात्र await प्रयोग गर्न पाइन्छ
+        
+        try {
+            // तपाईँको बाँकी सबै कोड (const projectId देखि अन्त्यसम्म) यहाँ भित्र राख्नुहोस्
+            console.log("Saving data...");
+            
+            // जस्तै: await supabaseClient... (यो भाग यहीँ भित्र हुनुपर्छ)
+            
+        } catch (err) {
+            console.error("Error:", err);
+        }
     });
 }
     e.preventDefault();
@@ -920,6 +928,7 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+
 
 
 
