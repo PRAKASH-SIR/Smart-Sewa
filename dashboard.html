@@ -5,18 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>शिवराज नगरपालिका - योजना प्रणाली</title>
 	
-	
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 	<script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	
-	
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap">
+	    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap">
 	<link href="https://nepali-datepicker.s3.ap-south-1.amazonaws.com/nepali.datepicker.v4.0.1.min.css" rel="stylesheet" type="text/css">
 	<script src="https://unpkg.com/nepali-datepicker-vuejs@2.1.0/dist/nepali-datepicker.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 
 <style>
 body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
@@ -25,7 +22,6 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
   
 </style>
 </head>
-
 
 <body class="bg-gray-100 flex h-screen overflow-hidden">
 
@@ -362,7 +358,6 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
             if (!error && projects) {
                 tableBody.innerHTML = '';
 				
-
 				projects.forEach(p => {
     const userEmail = document.getElementById('userEmail').innerText;
     const isAdmin = (userEmail === 'bkprakash65@gmail.com'); 
@@ -530,7 +525,6 @@ function goToPage(pageNum) {
         document.getElementById('projectForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-
 const formData = {
     Project_ID: "SHIV-82/83-" + Math.floor(1000 + Math.random() * 9000), 
     Yojana_Name: document.getElementById('form_Yojana_Name').value,
