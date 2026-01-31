@@ -637,17 +637,15 @@ function closeFormationModal() {
 }
 
 // ३. डाटा सेभ गर्ने (Submit) फङ्सन
-// यो नयाँ तरिकाले कोड लेख्नुहोस्
+// यो लाइन नम्बर ६४१ तिरबाट सुरु गर्नुहोस्
 const formationForm = document.getElementById('formationForm');
 
 if (formationForm) {
-    formationForm.addEventListener('submit', async (e) => {
+    formationForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        // यहाँ तपाईँको अरू सबै पुराना कोडहरू (updateData वाला) रहन्छन्...
-        console.log("फारम भेटियो र काम गर्दैछ");
+        console.log("Form submitted!");
+        // यहाँ भित्र मात्र await प्रयोग गर्न पाइन्छ
     });
-} else {
-    console.log("Waiting for formationForm to load...");
 }
     e.preventDefault();
     
@@ -922,5 +920,6 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+
 
 
