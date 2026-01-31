@@ -632,7 +632,18 @@ function closeFormationModal() {
 }
 
 // ३. डाटा सेभ गर्ने (Submit) फङ्सन
-document.getElementById('formationForm').addEventListener('submit', async (e) => {
+// यो नयाँ तरिकाले कोड लेख्नुहोस्
+const formationForm = document.getElementById('formationForm');
+
+if (formationForm) {
+    formationForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        // यहाँ तपाईँको अरू सबै पुराना कोडहरू (updateData वाला) रहन्छन्...
+        console.log("फारम भेटियो र काम गर्दैछ");
+    });
+} else {
+    console.log("अझै पनि फारम भेटिएन, कृपया ID चेक गर्नुहोस्");
+}
     e.preventDefault();
     
     const projectId = document.getElementById('formationProjectId').value;
