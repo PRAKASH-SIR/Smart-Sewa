@@ -12,7 +12,7 @@
 	
 	    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap">
 	<link href="https://nepali-datepicker.s3.ap-south-1.amazonaws.com/nepali.datepicker.v4.0.1.min.css" rel="stylesheet" type="text/css">
-	<script src="https://unpkg.com/nepali-datepicker-vuejs@2.1.0/dist/nepali-datepicker.min.js"></script>
+	<script src="https://nepali-datepicker.s3.ap-south-1.amazonaws.com/nepali.datepicker.v4.0.1.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
@@ -277,17 +277,18 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
         let currentPage = 1;
         let itemsPerPage = 10;
 
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const texts = document.querySelectorAll('.sidebar-text');
-            if (sidebar.classList.contains('w-64')) {
-                sidebar.classList.replace('w-64', 'w-20');
-                texts.forEach(t => t.classList.add('hidden-text'));
-            } else {
-                sidebar.classList.replace('w-20', 'w-64');
-                texts.forEach(t => t.classList.remove('hidden-text'));
-            }
-        }
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const texts = document.querySelectorAll('.sidebar-text');
+    
+    if (sidebar.classList.contains('w-64')) {
+        sidebar.classList.replace('w-64', 'w-20');
+        texts.forEach(t => t.style.display = 'none'); 
+    } else {
+        sidebar.classList.replace('w-20', 'w-64');
+        texts.forEach(t => t.style.display = 'inline'); 
+    }
+}
 
 		function toggleImpDropdown() {
 			const dropdown = document.getElementById('impDropdown');
@@ -905,3 +906,4 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+
