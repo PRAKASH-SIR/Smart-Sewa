@@ -232,7 +232,12 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
                         </div>
                     </form>
                 </div>
-				
+				<div id="formationModal" class="hidden">
+    <form id="formationForm" class="space-y-6">
+        <input type="text" id="formation_date" placeholder="मिति">
+        <button type="submit">सेभ गर्नुहोस्</button>
+    </form>
+</div>
 			<div id="view-implementation" class="hidden p-6">
     <div class="bg-white rounded-lg shadow-lg border p-4">
         <div class="flex justify-between items-center mb-6 border-b pb-4">
@@ -642,7 +647,7 @@ if (formationForm) {
         console.log("फारम भेटियो र काम गर्दैछ");
     });
 } else {
-    console.log("अझै पनि फारम भेटिएन, कृपया ID चेक गर्नुहोस्");
+    console.log("Waiting for formationForm to load...");
 }
     e.preventDefault();
     
@@ -713,7 +718,7 @@ if (formationForm) {
         </div>
 
         <div class="p-6">
-            <form id="formationForm" class="space-y-6">
+            
                 <input type="hidden" id="formationProjectId">
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -917,4 +922,5 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+
 
