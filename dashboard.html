@@ -571,57 +571,64 @@ function closeFormationModal() {
     document.getElementById('formationForm').reset();
 }
 // ३. डाटा सेभ गर्ने (Submit) फङ्सन
-document.getElementById('formationForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const projectId = document.getElementById('formationProjectId').value;
-    // चेकलिस्ट जम्मा गर्ने
-    const checklist = [];
-    document.querySelectorAll('.checklist-item:checked').forEach(item => {
-    checklist.push(item.value);
-    });
-    // डाटा तयार पार्ने
-    const updateData = {
-        formation_date: document.getElementById('formation_date').value,
-        address: document.getElementById('formation_address').value,
-        contact_no: document.getElementById('formation_contact').value,
-        execution_type: 'उपभोक्ता समिति',
-   // पदाधिकारी विवरण JSON ढाँचामा
-        chairman_info: {
-            name: document.getElementById('chairman_name').value,
-            cit_no: document.getElementById('chairman_cit').value,
-            gender: document.getElementById('chairman_gender').value,
-            father: document.getElementById('chairman_father').value,
-            phone: document.getElementById('chairman_phone').value
-        },
-        secretary_info: {
-            name: document.getElementById('secretary_name').value,
-            cit_no: document.getElementById('secretary_cit').value,
-            gender: document.getElementById('secretary_gender').value,
-            father: document.getElementById('secretary_father').value,
-            phone: document.getElementById('secretary_phone').value
-        },
-        treasurer_info: {
-            name: document.getElementById('treasurer_name').value,
-            cit_no: document.getElementById('treasurer_cit').value,
-            gender: document.getElementById('treasurer_gender').value,
-            father: document.getElementById('treasurer_father').value,
-            phone: document.getElementById('treasurer_phone').value
-        },
-        formation_checklist: checklist
-    };
-    try {
-        const { error } = await supabaseClient
-    .from('projects')
-    .update(updateData)
-    .eq('id', projectId);
+document.addEventListener("DOMContentLoaded", function() {
+    const formationForm = document.getElementById("formationForm");
+    if (formationForm) {
+        formationForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const projectId = document.getElementById('formationProjectId').value;
 
-if (error) throw error;
-alert('उपभोक्ता समिति विवरण सफलपूर्वक सुरक्षित गरियो!');
-closeFormationModal();
-} catch (err) {
-    console.error(err);
-    alert('डाटा सेभ गर्दा समस्या आयो: ' + err.message);
-}
+            // चेकलिस्ट जम्मा गर्ने
+            const checklist = [];
+            document.querySelectorAll('.checklist-item:checked').forEach(item => {
+                checklist.push(item.value);
+            });
+
+            // डाटा तयार पार्ने
+            const updateData = {
+                formation_date: document.getElementById('formation_date').value,
+                address: document.getElementById('formation_address').value,
+                contact_no: document.getElementById('formation_contact').value,
+                execution_type: 'उपभोक्ता समिति',
+                chairman_info: {
+                    name: document.getElementById('chairman_name').value,
+                    cit_no: document.getElementById('chairman_cit').value,
+                    gender: document.getElementById('chairman_gender').value,
+                    father: document.getElementById('chairman_father').value,
+                    phone: document.getElementById('chairman_phone').value
+                },
+                secretary_info: {
+                    name: document.getElementById('secretary_name').value,
+                    cit_no: document.getElementById('secretary_cit').value,
+                    gender: document.getElementById('secretary_gender').value,
+                    father: document.getElementById('secretary_father').value,
+                    phone: document.getElementById('secretary_phone').value
+                },
+                treasurer_info: {
+                    name: document.getElementById('treasurer_name').value,
+                    cit_no: document.getElementById('treasurer_cit').value,
+                    gender: document.getElementById('treasurer_gender').value,
+                    father: document.getElementById('treasurer_father').value,
+                    phone: document.getElementById('treasurer_phone').value
+                },
+                formation_checklist: checklist
+            };
+
+            try {
+                const { error } = await supabaseClient
+                    .from('projects')
+                    .update(updateData)
+                    .eq('id', projectId);
+
+                if (error) throw error;
+                alert('उपभोक्ता समिति विवरण सफलपूर्वक सुरक्षित गरियो!');
+                closeFormationModal();
+            } catch (err) {
+                console.error(err);
+                alert('डाटा सेभ गर्दा समस्या आयो: ' + err.message);
+            }
+        });
+    }
 });
 	</script>
 	<div id="formationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 overflow-y-auto pt-10">
@@ -816,3 +823,4 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+
