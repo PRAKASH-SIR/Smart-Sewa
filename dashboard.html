@@ -4,48 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>शिवराज नगरपालिका - योजना प्रणाली</title>
-	
-	
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 	<script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	
-	
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap">
+		    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&display=swap">
 	<link href="https://nepali-datepicker.s3.ap-south-1.amazonaws.com/nepali.datepicker.v4.0.1.min.css" rel="stylesheet" type="text/css">
 	<script src="https://unpkg.com/nepali-datepicker-vuejs@2.1.0/dist/nepali-datepicker.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-
 <style>
 body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
   .sidebar-transition { transition: width 0.3s ease-in-out; }
   .hidden-text { display: none; }
-  
-</style>
+  </style>
 </head>
-
-
 <body class="bg-gray-100 flex h-screen overflow-hidden">
-
 <aside id="sidebar" class="sidebar-transition w-64 bg-[#f8fafc] text-slate-700 flex flex-col border-r border-slate-200 relative">
     <div class="p-4 bg-[#dee2e6] flex items-center space-x-2 border-b border-slate-300">
         <span class="text-2xl">🏠</span>
         <span class="font-bold text-lg text-blue-900 sidebar-text">Smart-Sewa</span>
     </div>
-    
-    <nav class="flex-1 mt-2 overflow-y-auto custom-scrollbar">
+        <nav class="flex-1 mt-2 overflow-y-auto custom-scrollbar">
         <a href="javascript:void(0)" onclick="showView('dashboard')" class="flex items-center px-6 py-3 hover:bg-blue-50 hover:text-blue-700 transition font-semibold" id="nav-dashboard">
             <span class="text-xl">📊</span> <span class="ml-4 sidebar-text">ड्यासबोर्ड</span>
         </a>
-
         <a href="javascript:void(0)" onclick="showView('registration')" class="flex items-center px-6 py-3 hover:bg-blue-50 hover:text-blue-700 transition" id="nav-reg">
             <span class="text-xl">✔️</span> <span class="ml-4 sidebar-text">योजना दर्ता</span>
         </a>
-
         <div class="px-6 py-2 text-xs font-bold text-slate-400 uppercase sidebar-text">व्यवस्थापन</div>
-        
         <a href="javascript:void(0)" onclick="showView('implementation')" class="flex items-center px-6 py-3 hover:bg-blue-50 transition justify-between" id="nav-imp">
     <div class="flex items-center">
         <span class="text-xl">🗄️</span> 
@@ -53,7 +39,6 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
     </div>
     <span class="text-[10px] sidebar-text">◀</span>
 </a>
-
         <a href="javascript:void(0)" onclick="showView('dashboard')" class="flex items-center px-6 py-3 hover:bg-blue-50 transition">
             <span class="text-xl">✅</span> <span class="ml-4 sidebar-text">सम्पन्न योजना</span>
         </a>
@@ -63,7 +48,6 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
         </a>
     </nav>
 </aside>
-
     <div class="flex-1 flex flex-col overflow-hidden">
         <header class="h-16 bg-blue-700 text-white shadow-md flex items-center justify-between px-6">
             <div class="flex items-center">
@@ -75,10 +59,8 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
                 <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded font-bold text-xs">Log out</button>
             </div>
         </header>
-
         <main class="flex-1 overflow-y-auto p-6 relative">
-            
-            <div id="view-dashboard">
+                <div id="view-dashboard">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
                     <div class="bg-emerald-600 text-white p-6 rounded shadow-lg flex items-center justify-between">
                         <div><p class="text-xs opacity-80 uppercase">जम्मा योजना</p><h2 id="totalCount" class="text-3xl font-bold">...</h2></div>
@@ -97,13 +79,11 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
                         <span class="text-4xl opacity-30">⏳</span>
                     </div>
                 </div>
-
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="bg-white p-4 rounded shadow border"><h3 class="text-center font-bold border-b mb-4 pb-2">मासिक सम्झौता</h3><canvas id="barChart"></canvas></div>
                     <div class="bg-white p-4 rounded shadow border flex flex-col items-center"><h3 class="text-center font-bold border-b mb-4 pb-2 w-full">विनियोजन किसिम</h3><div class="w-64"><canvas id="pieChart"></canvas></div></div>
                 </div>
             </div>
-
             <div id="view-registration" class="hidden">
                 <div class="bg-white rounded-lg shadow-lg border p-4">
                     <div class="flex justify-between items-center mb-6 border-b pb-4">
@@ -145,7 +125,6 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
     <select class="border rounded px-2 py-2 bg-white" style="font-size: 15px;"><option>विनियोजन</option></select>
     <select class="border rounded px-2 py-2 bg-white" style="font-size: 15px;"><option>खरिद विधि</option></select>
 </div>
-
 <div class="flex justify-between items-center mb-4">
     <div class="flex items-center space-x-2">
         <span style="font-size: 15px;" class="text-gray-600">Show</span>
@@ -157,7 +136,6 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
         </select>
         <span style="font-size: 15px;" class="text-gray-600">entries</span>
     </div>
-
     <div class="flex space-x-2">
         <button onclick="exportToExcel()" class="p-2 border rounded bg-white text-green-600 hover:bg-gray-100 shadow-sm" style="font-size: 18px;" title="Download Excel">
             <i class="fas fa-file-download"></i>
@@ -167,7 +145,6 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
         </button>
     </div>
 </div>
-
 <table id="projectTable" class="min-w-full bg-white border-collapse text-left">
     <thead>
         <tr class="bg-blue-50 text-blue-800 uppercase" style="font-size: 15px;">
@@ -182,18 +159,15 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
     </thead>
     <tbody id="projectTableBody" style="font-size: 15px;" class="text-gray-700"></tbody>
 </table>
-
 <div id="paginationControls" class="mt-4 flex justify-between items-center px-4 pb-4 border-t pt-4" style="font-size: 15px;">
 </div>
-
             <div id="registrationModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 p-4">
                 <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl overflow-hidden">
 <div id="modalHeader" class="bg-blue-700 px-6 py-3 flex justify-between items-center text-white cursor-move">
     <h3 class="font-bold">नयाँ योजना दर्ता</h3>
     <button onclick="closeModal()" class="text-white hover:text-gray-200 text-2xl">&times;</button>
 </div>
-	
-                    <form id="projectForm" class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+	                    <form id="projectForm" class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                         <div>
                             <label class="block mb-1 font-bold">आर्थिक वर्ष (FY)</label>
                             <select id="form_FY" class="w-full border p-2 rounded bg-gray-50"><option>2082/83</option><option>2081/82</option></select>
@@ -236,8 +210,7 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
                         </div>
                     </form>
                 </div>
-				
-			<div id="view-implementation" class="hidden p-6">
+				<div id="view-implementation" class="hidden p-6">
     <div class="bg-white rounded-lg shadow-lg border p-4">
         <div class="flex justify-between items-center mb-6 border-b pb-4">
             <h3 class="text-xl font-bold text-gray-700">📋 योजना सञ्चालन सूची</h3>
@@ -272,7 +245,6 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
 	</div>
         </main>
     </div>
-
     <script>
         const SB_URL = "https://abdlksutjdmuqpiuqjhi.supabase.co";
         const SB_KEY = "sb_publishable_W8_A_dNK4dby9WfaV4Mnsg_NH45bm8e";
@@ -280,7 +252,6 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
 
         let currentPage = 1;
         let itemsPerPage = 10;
-
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const texts = document.querySelectorAll('.sidebar-text');
@@ -292,7 +263,6 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
                 texts.forEach(t => t.classList.remove('hidden-text'));
             }
         }
-
 		function toggleImpDropdown() {
 			const dropdown = document.getElementById('impDropdown');
 				dropdown.classList.toggle('hidden');
@@ -300,14 +270,12 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
 
         function showView(viewName) {
 			console.log("Switching to:", viewName);
-
     // १. सबै सेक्सनहरू लुकाउने
     const views = ['view-dashboard', 'view-registration', 'view-implementation'];
     views.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.add('hidden');
     });
-
     // २. छानिएको सेक्सन देखाउने
     const activeView = document.getElementById('view-' + viewName);
     if (activeView) {
@@ -315,7 +283,6 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
     } else {
         console.error("ID भेटिएन: view-" + viewName);
     }
-
     // ३. साइडबारको रङ्ग बदल्ने (इरर नआउने सुरक्षित तरिका)
     const navDash = document.getElementById('nav-dashboard');
     const navReg = document.getElementById('nav-reg');
@@ -324,7 +291,6 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
     if (navDash) navDash.classList.toggle('bg-blue-600', viewName === 'dashboard');
     if (navReg) navReg.classList.toggle('bg-blue-600', viewName === 'registration');
 	if (navImp) navImp.classList.toggle('bg-blue-600', viewName === 'implementation');
-
     // ४. डेटा लोड गर्ने
     if (viewName === 'registration') {
         if (typeof loadProjectData === "function") loadProjectData();
@@ -342,12 +308,10 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
                 showView('dashboard');
             } else { window.location.href = "index.html"; }
         }
-
         async function fetchDashboardStats() {
             const { count } = await supabaseClient.from('projects').select('*', { count: 'exact', head: true });
             document.getElementById('totalCount').innerText = count || 0;
         }
-
         async function loadProjectData() {
             const tableBody = document.getElementById('projectTableBody');
             tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center">लोड हुँदैछ...</td></tr>';
@@ -361,12 +325,9 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
             const { data: projects, count, error } = await query.range(from, to).order('id', { ascending: true });
             if (!error && projects) {
                 tableBody.innerHTML = '';
-				
-
 				projects.forEach(p => {
     const userEmail = document.getElementById('userEmail').innerText;
     const isAdmin = (userEmail === 'bkprakash65@gmail.com'); 
-
     tableBody.innerHTML += `
         <tr class="hover:bg-gray-50 border-b">
             <td class="px-4 py-3 border font-bold">${p.Project_ID || p.id}</td>
@@ -393,18 +354,14 @@ body { font-family: 'Mukta', sans-serif; transition: all 0.3s; }
 async function loadImplementationData() {
     const tbody = document.getElementById('implementationTableBody');
     if (!tbody) return;
-    
-    tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">लोड हुँदैछ...</td></tr>';
-
+       tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center">लोड हुँदैछ...</td></tr>';
     const { data, error } = await supabaseClient
         .from('projects') 
         .select('*');
-
     if (error) {
         tbody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-red-500">डेटा लोड गर्न सकिएन।</td></tr>';
         return;
     }
-
     tbody.innerHTML = '';
     data.forEach(p => {
         const budget = p.Budget || 0;
@@ -423,26 +380,21 @@ async function loadImplementationData() {
         tbody.innerHTML += row;
     });
 }
-
 function renderPagination(totalItems) {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const paginationDiv = document.getElementById('paginationControls');
-    
-    if (!totalItems || totalItems <= 0) { 
+        if (!totalItems || totalItems <= 0) { 
         paginationDiv.innerHTML = ""; 
         return; 
     }
-
     // १. देब्रेतिर: Showing text
     const fromEntry = (currentPage - 1) * itemsPerPage + 1;
     const toEntry = Math.min(currentPage * itemsPerPage, totalItems);
     let infoHtml = `<div class="text-sm text-gray-700">Showing ${fromEntry} to ${toEntry} of ${totalItems} entries</div>`;
-
     // २. दाहिनेतिर: Number Buttons (Previous 1 2 ... Next)
     let buttonsHtml = `<div class="flex items-center space-x-1">
         <button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} 
             class="px-3 py-1 border rounded text-sm disabled:opacity-50 bg-white hover:bg-gray-100">Previous</button>`;
-
     // पेज नम्बरहरू देखाउने लजिक (५ वटा पेज भन्दा धेरै भए बीचमा ... देखाउने)
     for (let i = 1; i <= totalPages; i++) {
         if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
@@ -455,7 +407,6 @@ function renderPagination(totalItems) {
             buttonsHtml += `<span class="px-2">...</span>`;
         }
     }
-
     buttonsHtml += `
         <button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} 
             class="px-3 py-1 border rounded text-sm disabled:opacity-50 bg-white hover:bg-gray-100">Next</button>
@@ -463,24 +414,19 @@ function renderPagination(totalItems) {
 
     paginationDiv.innerHTML = infoHtml + buttonsHtml;
 }
-
 function goToPage(pageNum) {
     // १ भन्दा सानो पेजमा जान नदिने
     if (pageNum < 1) return; 
-    
-    // अहिलेको पेज नम्बर अपडेट गर्ने
+        // अहिलेको पेज नम्बर अपडेट गर्ने
     currentPage = pageNum;
-    
-    // डाटा लोड गर्ने फङ्सनलाई फेरि बोलाउने
+        // डाटा लोड गर्ने फङ्सनलाई फेरि बोलाउने
     loadProjectData(); 
 }
         // Modal Functions
       let editingId = null; // यो लाइनले कुन योजना सच्याउने हो थाहा पाउँछ
-
         function openModal() { 
             document.getElementById('registrationModal').classList.remove('hidden'); 
         }
-
         function closeModal() {
             document.getElementById('registrationModal').classList.add('hidden');
             editingId = null; // बन्द गर्दा ID रिसेट गर्ने
@@ -490,7 +436,6 @@ function goToPage(pageNum) {
             document.getElementById('projectForm').reset();
             editingId = null;
         }
-
         // Edit बटन थिच्दा विवरण फारममा ल्याउने फङ्सन
         async function editProject(id) {
             const { data, error } = await supabaseClient.from('projects').select('*').eq('id', id).single();
@@ -507,55 +452,54 @@ function goToPage(pageNum) {
                 document.getElementById('form_Location').value = data.Location;
                 openModal();
             }
-        }
-
+        	}
         // सेभ गर्दा (नयाँ वा अपडेट) दुवै चेक गर्ने
-  	
-        // १. फारम खोल्ने (नयाँ थप्नुहोस् बटन)
+  	        // १. फारम खोल्ने (नयाँ थप्नुहोस् बटन)
         function openModal() { 
             document.getElementById('registrationModal').classList.remove('hidden'); 
         }
-
         // २. पप-अप बन्द गर्ने ("x" बटन र पेश गरेपछि)
         function closeModal() {
             document.getElementById('registrationModal').classList.add('hidden');
         }
-
         // ३. रद्द थिच्दा: पप-अप बन्द नगर्ने, केवल भित्रका अक्षर खाली गर्ने
         function clearForm() {
             const form = document.getElementById('projectForm');
             form.reset(); // सबै टाइप गरेका विवरण मेट्छ
         }
 // ४. पेश गर्नुहोस् थिच्दा: डाटाबेस सेभ गर्ने र पप-अप बन्द गर्ने
-        document.getElementById('projectForm').addEventListener('submit', async (e) => {
+document.addEventListener("DOMContentLoaded", function() {
+    const projectForm = document.getElementById("projectForm");
+    if (projectForm) {
+        projectForm.addEventListener("submit", async (e) => {
             e.preventDefault();
-            
 
-const formData = {
-    Project_ID: "SHIV-82/83-" + Math.floor(1000 + Math.random() * 9000), 
-    Yojana_Name: document.getElementById('form_Yojana_Name').value,
-    Ward_No: parseInt(document.getElementById('form_Ward_No').value) || 0,
-    Budget: parseFloat(document.getElementById('form_Budget').value) || 0,
-    Fiscal_Year: document.getElementById('form_FY').value,
-    Sector: document.getElementById('form_Sector').value,
-    Allocation_Type: document.getElementById('form_Type').value,
-    Location: document.getElementById('form_Location').value,
-    // यो तलको लाइन थपेपछि मात्र त्यो म्यासेज हराउँछ
-    Branch: "योजना शाखा" 
-};
+            const formData = {
+                Project_ID: "SHIV-82/83-" + Math.floor(1000 + Math.random() * 9000),
+                Yojana_Name: document.getElementById('form_Yojana_Name').value,
+                Ward_No: parseInt(document.getElementById('form_Ward_No').value) || 0,
+                Budget: parseFloat(document.getElementById('form_Budget').value) || 0,
+                Fiscal_Year: document.getElementById('form_FY').value,
+                Sector: document.getElementById('form_Sector').value,
+                Allocation_Type: document.getElementById('form_Type').value,
+                Location: document.getElementById('form_Location').value,
+                Branch: "योजना शाखा"
+            };
+
             const { error } = await supabaseClient.from('projects').insert([formData]);
 
             if (error) {
                 alert("त्रुटि: " + error.message);
             } else {
                 alert("डाटाबेस सुरक्षित भयो!");
-                clearForm(); // अक्षर मेट्ने
-                closeModal(); // पप-अप बन्द गर्ने
-                loadProjectData(); // तालिका अपडेट
+                clearForm();        // अक्षर मेट्ने
+                closeModal();       // पप-अप बन्द गर्ने
+                loadProjectData();  // तालिका अपडेट
                 fetchDashboardStats(); // संख्या अपडेट
             }
         });
-        // --- यहाँ सम्म ---        
+    }
+});       
         function loadCharts() {
             new Chart(document.getElementById('barChart'), {
                 type: 'bar',
@@ -584,20 +528,17 @@ const formData = {
                 }
             }
         }
-
         async function logout() { await supabaseClient.auth.signOut(); window.location.href = "index.html"; }
 // मोडललाई माउसले समातेर सार्ने (Drag and Drop) कोड
 const modalContainer = document.querySelector('#registrationModal > div');
 const modalHeader = document.getElementById('modalHeader');
 let isDragging = false, offsetStartX, offsetStartY;
-
 modalHeader.onmousedown = (e) => {
     isDragging = true;
     offsetStartX = e.clientX - modalContainer.offsetLeft;
     offsetStartY = e.clientY - modalContainer.offsetTop;
     modalHeader.style.cursor = 'grabbing';
 };
-
 document.onmousemove = (e) => {
     if (!isDragging) return;
     // मोडललाई बिचबाट हटाएर माउसको चाल अनुसार सार्ने
@@ -606,56 +547,45 @@ document.onmousemove = (e) => {
     modalContainer.style.left = (e.clientX - offsetStartX) + 'px';
     modalContainer.style.top = (e.clientY - offsetStartY) + 'px';
 };
-
 document.onmouseup = () => {
     isDragging = false;
     modalHeader.style.cursor = 'move';
 };
-
 function updateEntries() {
     // ड्रपडाउनबाट छानिएको संख्या लिने
     itemsPerPage = parseInt(document.getElementById("entriesPerPage").value);
-    
-    // पेजलाई १ मा फर्काउने
+        // पेजलाई १ मा फर्काउने
     currentPage = 1; 
-    
-    // डाटा लोड गर्ने
+        // डाटा लोड गर्ने
     loadProjectData();
 }
-	
 	init();
     // १. फर्म खोल्ने फङ्सन
 function openOperationModal(projectId) {
     document.getElementById('formationProjectId').value = projectId;
     document.getElementById('formationModal').classList.remove('hidden');
 }
-
 // २. फर्म बन्द गर्ने फङ्सन
 function closeFormationModal() {
     document.getElementById('formationModal').classList.add('hidden');
     document.getElementById('formationForm').reset();
 }
-
 // ३. डाटा सेभ गर्ने (Submit) फङ्सन
 document.getElementById('formationForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
     const projectId = document.getElementById('formationProjectId').value;
-    
     // चेकलिस्ट जम्मा गर्ने
     const checklist = [];
     document.querySelectorAll('.checklist-item:checked').forEach(item => {
-        checklist.push(item.value);
+    checklist.push(item.value);
     });
-
     // डाटा तयार पार्ने
     const updateData = {
         formation_date: document.getElementById('formation_date').value,
         address: document.getElementById('formation_address').value,
         contact_no: document.getElementById('formation_contact').value,
         execution_type: 'उपभोक्ता समिति',
-        
-        // पदाधिकारी विवरण JSON ढाँचामा
+   // पदाधिकारी विवरण JSON ढाँचामा
         chairman_info: {
             name: document.getElementById('chairman_name').value,
             cit_no: document.getElementById('chairman_cit').value,
@@ -679,23 +609,20 @@ document.getElementById('formationForm').addEventListener('submit', async (e) =>
         },
         formation_checklist: checklist
     };
-
     try {
-        const { error } = await _supabase
-            .from('projects')
-            .update(updateData)
-            .eq('id', projectId);
+        const { error } = await supabaseClient
+    .from('projects')
+    .update(updateData)
+    .eq('id', projectId);
 
-        if (error) throw error;
-
-        alert('उपभोक्ता समिति विवरण सफलपूर्वक सुरक्षित गरियो!');
-        closeFormationModal();
-    } catch (err) {
-        console.error(err);
-        alert('डाटा सेभ गर्दा समस्या आयो: ' + err.message);
-    }
+if (error) throw error;
+alert('उपभोक्ता समिति विवरण सफलपूर्वक सुरक्षित गरियो!');
+closeFormationModal();
+} catch (err) {
+    console.error(err);
+    alert('डाटा सेभ गर्दा समस्या आयो: ' + err.message);
+}
 });
-	
 	</script>
 	<div id="formationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 overflow-y-auto pt-10">
     <div class="bg-white w-11/12 max-w-5xl mx-auto rounded-lg shadow-xl mb-10 border-t-4 border-blue-600">
@@ -705,12 +632,10 @@ document.getElementById('formationForm').addEventListener('submit', async (e) =>
             </h3>
             <button onclick="closeFormationModal()" class="text-2xl text-gray-500 hover:text-red-500">&times;</button>
         </div>
-
         <div class="p-6">
             <form id="formationForm" class="space-y-6">
                 <input type="hidden" id="formationProjectId">
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-sm font-bold mb-1">गठन मिति</label>
                         <input type="date" id="formation_date" class="w-full border p-2 rounded focus:ring-2 focus:ring-blue-400 outline-none">
@@ -724,7 +649,6 @@ document.getElementById('formationForm').addEventListener('submit', async (e) =>
                         <input type="text" id="formation_contact" placeholder="सम्पर्क फोन नम्बर" class="w-full border p-2 rounded focus:ring-2 focus:ring-blue-400 outline-none">
                     </div>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="w-full border-collapse border border-gray-300">
                         <thead>
@@ -775,7 +699,6 @@ document.getElementById('formationForm').addEventListener('submit', async (e) =>
                         </tbody>
                     </table>
                 </div>
-
                 <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
                     <h4 class="font-bold text-blue-800 mb-2">चेक लिस्ट (संलग्न कागजातहरू)</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
@@ -785,7 +708,6 @@ document.getElementById('formationForm').addEventListener('submit', async (e) =>
                         <label class="flex items-center gap-2"><input type="checkbox" class="checklist-item" value="महिला प्रतिनिधित्व"> ३३% महिला प्रतिनिधित्व पुगेको</label>
                     </div>
                 </div>
-
                 <div class="flex justify-end gap-3 border-t pt-4">
                     <button type="button" onclick="closeFormationModal()" class="px-6 py-2 bg-gray-200 rounded hover:bg-gray-300">रद्द गर्नुहोस्</button>
                     <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 shadow-md flex items-center gap-2">
@@ -799,7 +721,6 @@ document.getElementById('formationForm').addEventListener('submit', async (e) =>
 <script src="https://nepali-datetime-picker.s3.ap-south-1.amazonaws.com/nepali.datepicker.v4.0.1.min.js"></script>
 <script>
 <form id="formationForm" class="space-y-6">
-
         // 'मिति सम्म' सुचारु गर्ने
         var toEl = document.getElementById("nepali-datepicker-to");
         if (toEl) {
@@ -809,8 +730,6 @@ document.getElementById('formationForm').addEventListener('submit', async (e) =>
                 readOnlyInput: true
             });
         }
-    });
-
 // १. Excel Download गर्ने फङ्सन
 function exportToExcel() {
     var table = document.getElementById("projectTable");
@@ -818,14 +737,12 @@ function exportToExcel() {
         alert("टेबल फेला परेन!");
         return;
     }
-
     // "कार्य" (Action) कोलम हटाउन टेबल कपी गर्ने
     var cloneTable = table.cloneNode(true);
     var rows = cloneTable.rows;
     for (var i = 0; i < rows.length; i++) {
         rows[i].deleteCell(-1); // अन्तिम कोलम हटाउने
     }
-
     var html = cloneTable.outerHTML;
     // नेपाली फन्ट सपोर्टको लागि UTF-8 प्रयोग गरिएको छ
     var blobData = '<meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8">' + html;
@@ -836,8 +753,7 @@ function exportToExcel() {
     link.download = 'योजना_रिपोर्ट.xls';
     link.href = url;
     link.click();
-}
-
+	}
 // २. तपाईँकै साविकको Print गर्ने फङ्सन
 function printData() {
     var divToPrint = document.getElementById("projectTable").cloneNode(true);
@@ -845,7 +761,6 @@ function printData() {
     for (var i = 0; i < allRows.length; i++) {
         allRows[i].deleteCell(-1);
     }
-
     var newWin = window.open("");
     newWin.document.write(`
         <html>
@@ -877,7 +792,6 @@ function printData() {
         </body>
         </html>
     `);
-
     newWin.document.close();
     setTimeout(function() {
         newWin.print();
