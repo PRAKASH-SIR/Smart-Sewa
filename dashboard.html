@@ -799,58 +799,56 @@ function printData() {
     </div>
 
     <!-- Nepali Datepicker JS file load -->
-    <script src="js/nepali.datepicker.v4.0.8.min.js"></script>
+<script src="js/nepali.datepicker.v4.0.8.min.js"></script>
 
-    <!-- Print function -->
-    <script>
-    function printDiv() {
-        var divToPrint = document.getElementById("divToPrint");
-        var newWin = window.open("");
-        newWin.document.write(`
-            <html>
-            <head><title>Print</title></head>
-            <body>
-                <div class="header">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Emblem_of_Nepal.svg" class="logo">
-                    <h2 style="margin:0;">शिवराज नगरपालिका</h2>
-                    <h3 style="margin:5px 0;">नगर कार्यपालिकाको कार्यालय</h3>
-                    <p style="margin:0;">चन्द्रौटा, कपिलवस्तु<br>लुम्बिनी प्रदेश, नेपाल</p>
-                    <hr>
-                    <h4>कार्यक्रम/आयोजना/क्रियाकलापको विवरण</h4>
-                </div>
-                ${divToPrint.outerHTML}
-                <div class="footer">
-                    <p>...........................................</p>
-                </div>
-			</body>
-            </html>
-        `);
-        newWin.document.close();
-        setTimeout(function() {
-            newWin.print();
-            newWin.close();
+<!-- Print function -->
+<script>
+function printDiv() {
+    var divToPrint = document.getElementById("divToPrint");
+    var newWin = window.open("");
+    newWin.document.write(`
+        <html>
+        <head><title>Print</title></head>
+        <body>
+            <div class="header">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Emblem_of_Nepal.svg" class="logo">
+                <h2 style="margin:0;">शिवराज नगरपालिका</h2>
+                <h3 style="margin:5px 0;">नगर कार्यपालिकाको कार्यालय</h3>
+                <p style="margin:0;">चन्द्रौटा, कपिलवस्तु<br>लुम्बिनी प्रदेश, नेपाल</p>
+                <hr>
+                <h4>कार्यक्रम/आयोजना/क्रियाकलापको विवरण</h4>
+            </div>
+            ${divToPrint.outerHTML}
+            <div class="footer">
+                <p>...........................................</p>
+            </div>
+        </body>
+        </html>
+    `);
+    newWin.document.close();
+    setTimeout(function() {
+        newWin.print();
+        newWin.close();
     }, 500);
-    }
-    </script>
+}
+</script>
 
-    <!-- Nepali Datepicker Initialization -->
-    <script>
-    $(document).ready(function() {
-        setTimeout(function() {
-            if (typeof $.fn.nepaliDatePicker !== 'undefined') {
-                $('#nepali-datepicker-from, #nepali-datepicker-to').nepaliDatePicker({
-                    ndpYear: true,
-                    ndpMonth: true,
-                    readOnlyInput: true
-                });
-                console.log("Calendar is now Active!");
-            } else {
-                console.error("Nepali Datepicker Library not found!");
+<!-- Nepali Datepicker Initialization -->
+<script>
+$(document).ready(function() {
+    setTimeout(function() {
+        if (typeof $.fn.nepaliDatePicker !== 'undefined') {
+            $('#nepali-datepicker-from, #nepali-datepicker-to').nepaliDatePicker({
+                npdYear: true,
+                npdMonth: true,
+                readOnlyInput: true
+            });
+            console.log("Calendar is now Active!");
+        } else {
+            console.error("Nepali Datepicker Library not found!");
         }
-        }, 500);
-    });
+    }, 500);
+});
 </script>
 </body>
 </html>
-
-
