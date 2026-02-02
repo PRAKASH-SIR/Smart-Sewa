@@ -724,7 +724,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
     </div>
 </div>
-	</script>
+				
 	// 'मिति सम्म' सुचारु गर्ने
         var toEl = document.getElementById("nepali-datepicker-to");
         if (toEl) {
@@ -837,8 +837,8 @@ $(document).ready(function() {
     setTimeout(function() {
         if (typeof $.fn.nepaliDatePicker !== 'undefined') {
             $('#nepali-datepicker-from, #nepali-datepicker-to').nepaliDatePicker({
-                npdYear: true,
-                npdMonth: true,
+                nddYear: true,
+                nddMonth: true,
                 readOnlyInput: true
             });
             console.log("Calendar is now Active!");
@@ -846,10 +846,11 @@ $(document).ready(function() {
             console.error("Nepali Datepicker Library not found!");
         }
     }, 500);
-}});
+	});
 </script>
 </body>
 </html>
+
 
 
 
