@@ -80,7 +80,7 @@
         // Replace the placeholder below with your anon/public key for local testing,
         // but rotate/regenerate the key if it was exposed publicly.
         const SB_URL = "https://abdlksutjdmuqpiuqjhi.supabase.co";
-        const SB_KEY = "<YOUR_SUPABASE_ANON_KEY_HERE>"; // <- set this before deploy (or better: use server-side proxy)
+        const SB_KEY = "<eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZGxrc3V0amRtdXFwaXVxamhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTgyNTgsImV4cCI6MjA4NTEzNDI1OH0.ICRIMhBOoQn2obgDiDjcqjYm0N1yz2b0yb0vmvpTSNE>"; // <- set this before deploy (or better: use server-side proxy)
         const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
 
         // DOM refs (safe)
@@ -150,3 +150,4 @@
     </script>
 </body>
 </html>
+
