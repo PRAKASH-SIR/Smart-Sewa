@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>लगिन - शिवराज नगरपालिका</title>
+
+    <!-- Supabase client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Tailwind (dev CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         body { font-family: 'Mukta', sans-serif; background-color: #f3f4f6; }
         /* Spinner & Overlay Styles */
@@ -68,66 +75,76 @@
     </div>
 
     <script>
-        // १. तपाईं Supabase विवरण
+        // ===== Supabase config =====
+        // NOTE: Do NOT commit production anon keys to public repos.
+        // Replace the placeholder below with your anon/public key for local testing,
+        // but rotate/regenerate the key if it was exposed publicly.
         const SB_URL = "https://abdlksutjdmuqpiuqjhi.supabase.co";
-        const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZGxrc3V0amRtdXFwaXVxamhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTgyNTgsImV4cCI6MjA4NTEzNDI1OH0.ICRIMhBOoQn2obgDiDjcqjYm0N1yz2b0yb0vmvpTSNE";
+        const SB_KEY = "<YOUR_SUPABASE_ANON_KEY_HERE>"; // <- set this before deploy (or better: use server-side proxy)
         const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
 
-        // २. लोडिङ Logic
+        // DOM refs (safe)
         const loadingOverlay = document.getElementById('loadingOverlay');
         const mainContent = document.getElementById('mainContent');
 
         function showLoading() {
-            loadingOverlay.classList.add('active');
-            mainContent.style.visibility = 'hidden';
+            if (loadingOverlay) loadingOverlay.classList.add('active');
+            if (mainContent) mainContent.style.visibility = 'hidden';
         }
 
         function hideLoading() {
-            loadingOverlay.classList.remove('active');
-            mainContent.style.visibility = 'visible';
+            if (loadingOverlay) loadingOverlay.classList.remove('active');
+            if (mainContent) mainContent.style.visibility = 'visible';
         }
 
-        // ३. Page Load हुँदा लगिन चेक गर्ने र Loading देखाउने
+        // Check session on load
         async function checkSession() {
-            showLoading(); // Login गर्ने थपाई Loading देखाउने
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            if (session) {
-                window.location.href = "dashboard.html";
-            } else {
-                hideLoading(); // सफलैएको ठीकम्मा देखाउने
+            showLoading();
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (session) {
+                    // already logged in
+                    window.location.href = "dashboard.html";
+                } else {
+                    // show login
+                    if (mainContent) mainContent.style.display = 'block';
+                    hideLoading();
+                }
+            } catch (err) {
+                console.error('Session check failed', err);
+                if (mainContent) mainContent.style.display = 'block';
+                hideLoading();
             }
         }
         checkSession();
 
-        // ४. लगिन फार्म Submit हुँदा Loading र लगिन गर्ने
+        // Login form submit
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            // लगिन गर्दा Loading देखाउने
             showLoading();
-
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const message = document.getElementById('message');
 
-            message.innerText = "प्रमाण्ता गरिँ राख्नुहुन्छ...";
+            message.innerText = "प्रमाण्ता गरिँ राख्नुहोस्...";
             message.className = "mt-4 text-center text-blue-600 font-medium";
-            
-            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
-            // लगिन प्रक्रिया समाप्ता Loading हटाउने (Success या Error)
-            hideLoading();
-
-            if (error) {
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) {
+                    message.className = "mt-4 text-center text-red-500 font-medium";
+                    message.innerText = "त्रुटि: " + error.message;
+                } else {
+                    message.className = "mt-4 text-center text-green-600 font-medium";
+                    message.innerText = "सफल! ड्यासबोर्डमा जाँदैँछ...";
+                    setTimeout(() => window.location.href = "dashboard.html", 1000);
+                }
+            } catch (err) {
                 message.className = "mt-4 text-center text-red-500 font-medium";
-                message.innerText = "त्रुटि: " + error.message;
-            } else {
-                message.className = "mt-4 text-center text-green-600 font-medium";
-                message.innerText = "सफल! ड्यासबोर्डमा जाँदैँछ...";
-                
-                setTimeout(() => {
-                    window.location.href = "dashboard.html";
-                }, 1000);
+                message.innerText = "त्रुटि: " + (err.message || err);
+                console.error(err);
+            } finally {
+                hideLoading();
             }
         });
     </script>
