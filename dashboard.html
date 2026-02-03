@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart-Sewa - Dashboard</title>
 
-    <!-- jQuery: nepali datepicker depends on jQuery -->
+    <!-- jQuery (nepali datepicker depends on it) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Nepali Datepicker -->
@@ -35,10 +35,8 @@
         <div class="mt-2 text-blue-900 font-bold">Loading...</div>
     </div>
 
-    <!-- Single print area -->
     <div id="print-area" style="display:none;"></div>
 
-    <!-- App HTML (truncated/representative UI) -->
     <header class="p-4 bg-white shadow">
         <div class="flex justify-between items-center">
             <div class="flex items-center gap-2">
@@ -58,7 +56,6 @@
             <p class="text-sm text-gray-600">योजना व्यवस्थापन प्रणाली</p>
         </div>
 
-        <!-- Registration modal toggle -->
         <div class="mb-4">
             <button onclick="openModal()" class="bg-blue-600 text-white px-4 py-2 rounded">+ नयाँ थप्नुहोस्</button>
         </div>
@@ -122,7 +119,6 @@
             </div>
         </div>
 
-        <!-- Example table placeholder -->
         <div class="bg-white p-4 rounded shadow">
             <table class="min-w-full bg-white">
                 <thead>
@@ -141,12 +137,11 @@
     </main>
 
     <script>
-        // ===== Supabase config (same note as in index.html) =====
-        const SB_URL = "https://abdlksutjdmuqpiuqjhi.supabase.co";
-        const SB_KEY = "<eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZGxrc3V0amRtdXFwaXVxamhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTgyNTgsImV4cCI6MjA4NTEzNDI1OH0.ICRIMhBOoQn2obgDiDjcqjYm0N1yz2b0yb0vmvpTSNE>";
-        const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
+        // read config
+        const SUPABASE_URL = window.APP_CONFIG?.SUPABASE_URL || "https://abdlksutjdmuqpiuqjhi.supabase.co";
+        const SUPABASE_ANON_KEY = window.APP_CONFIG?.SUPABASE_ANON_KEY || "<PUT_YOUR_KEY_HERE>";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // DOM safe refs
         const loadingEl = document.getElementById('loadingOverlay');
         function showGlobalLoading() { if (loadingEl) loadingEl.classList.add('active'); }
         function hideGlobalLoading() { if (loadingEl) loadingEl.classList.remove('active'); }
@@ -156,7 +151,6 @@
         const itemsPerPage = 10;
         let currentPage = 1;
 
-        // Modal open/close helpers
         function openModal() {
             const modal = document.getElementById('registrationModal');
             if (modal) modal.classList.remove('hidden');
@@ -169,7 +163,6 @@
             editingId = null;
         }
 
-        // Logout
         async function logout() {
             try {
                 await supabaseClient.auth.signOut();
@@ -180,25 +173,26 @@
             }
         }
 
-        // init
         async function init() {
             hideGlobalLoading();
             try {
-                const { data: { user } } = await supabaseClient.auth.getUser();
+                const { data: { user }, error } = await supabaseClient.auth.getUser();
+                if (error) console.warn('getUser error', error);
                 if (user) {
                     currentUserEmail = user.email;
                     const userEmailEl = document.getElementById('userEmail');
                     if (userEmailEl) userEmailEl.innerText = currentUserEmail;
                 } else {
-                    // Not logged in, redirect
                     window.location.href = "index.html";
+                    return;
                 }
             } catch (err) {
                 console.error('Init error', err);
                 window.location.href = "index.html";
+                return;
             }
 
-            // init nepali datepickers (safe check)
+            // nepali datepicker init safe
             setTimeout(function() {
                 if (typeof window.$ !== 'undefined' && typeof window.$.fn !== 'undefined' && typeof window.$.fn.nepaliDatePicker !== 'undefined') {
                     $('#nepali-datepicker-from, #nepali-datepicker-to').nepaliDatePicker({
@@ -209,7 +203,6 @@
                 }
             }, 500);
 
-            // load initial data
             fetchDashboardStats();
             loadProjectData();
         }
@@ -217,6 +210,7 @@
         async function fetchDashboardStats() {
             try {
                 const { count, error } = await supabaseClient.from('projects').select('*', { count: 'exact', head: true });
+                if (error) throw error;
                 const totalEl = document.getElementById('totalCount');
                 if (totalEl) totalEl.innerText = count || 0;
             } catch (err) {
@@ -259,11 +253,10 @@
             }
         }
 
-        // Print/letterhead function (safe, no stray html)
+        // Print helper
         function openPrintForTable(tableSelector) {
             const table = document.querySelector(tableSelector);
             if (!table) return;
-            // Letterhead HTML assembled safely
             const letterheadHTML = `
                 <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
                     <div style="width:70px"><img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Emblem_of_Nepal.svg" alt="Logo" style="width:100%"></div>
@@ -273,7 +266,6 @@
                     </div>
                 </div>
             `;
-
             const newWin = window.open('', '_blank', 'width=900,height=700');
             newWin.document.write(`
                 <html>
@@ -296,7 +288,6 @@
             setTimeout(() => newWin.print(), 500);
         }
 
-        // Handle project form submit
         document.getElementById('projectForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('form_Yojana_Name').value;
@@ -329,9 +320,7 @@
             }
         });
 
-        // Run init on DOM ready
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
-
