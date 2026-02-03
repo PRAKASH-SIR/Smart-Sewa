@@ -60,7 +60,7 @@
     <script>
         // Use window.APP_CONFIG from local config.js if present, else fallback placeholders.
         const SUPABASE_URL = window.APP_CONFIG?.SUPABASE_URL || "https://abdlksutjdmuqpiuqjhi.supabase.co";
-        const SUPABASE_ANON_KEY = window.APP_CONFIG?.SUPABASE_ANON_KEY || "<PUT_YOUR_KEY_HERE>";
+        const SUPABASE_ANON_KEY = window.APP_CONFIG?.SUPABASE_ANON_KEY || "<eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZGxrc3V0amRtdXFwaXVxamhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTgyNTgsImV4cCI6MjA4NTEzNDI1OH0.ICRIMhBOoQn2obgDiDjcqjYm0N1yz2b0yb0vmvpTSNE>";
 
         // initialize supabase
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -139,3 +139,4 @@
     </script>
 </body>
 </html>
+
