@@ -16,29 +16,9 @@
 
     <style>
         body { font-family: 'Mukta', sans-serif; background-color: #f3f4f6; }
-        /* Spinner & Overlay Styles */
-        .spinner {
-            border: 4px solid #e5e7eb;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            animation: spin 1s linear infinite;
-        }
+        .spinner { border: 4px solid #e5e7eb; border-top: 4px solid #3498db; border-radius: 50%; width: 36px; height: 36px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255, 0.9);
-            display: none;
-            z-index: 9999;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255, 0.9); display: none; z-index: 9999; flex-direction: column; align-items: center; justify-content: center; }
         .loading-overlay.active { display: flex; }
     </style>
 </head>
@@ -53,7 +33,6 @@
 
         <div id="mainContent" style="display: none;">
             <div class="text-center mb-8">
-                <!-- Nepal Icon -->
                 <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Emblem_of_Nepal.svg" alt="Nepal Logo" class="w-24 mx-auto mb-4">
                 <h1 class="text-3xl font-bold text-blue-900">शिवराज नगरपालिका</h1>
                 <p class="text-gray-600 mt-2 text-lg">योजना व्यवस्थापन प्रणाली</p>
@@ -74,16 +53,19 @@
         </div>
     </div>
 
-    <script>
-        // ===== Supabase config =====
-        // NOTE: Do NOT commit production anon keys to public repos.
-        // Replace the placeholder below with your anon/public key for local testing,
-        // but rotate/regenerate the key if it was exposed publicly.
-        const SB_URL = "https://abdlksutjdmuqpiuqjhi.supabase.co";
-        const SB_KEY = "<eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZGxrc3V0amRtdXFwaXVxamhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NTgyNTgsImV4cCI6MjA4NTEzNDI1OH0.ICRIMhBOoQn2obgDiDjcqjYm0N1yz2b0yb0vmvpTSNE>"; // <- set this before deploy (or better: use server-side proxy)
-        const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
+    <!-- Optional: include local config.js with real keys (create from config.example.js)
+         <script src="config.js"></script>
+    -->
 
-        // DOM refs (safe)
+    <script>
+        // Use window.APP_CONFIG from local config.js if present, else fallback placeholders.
+        const SUPABASE_URL = window.APP_CONFIG?.SUPABASE_URL || "https://abdlksutjdmuqpiuqjhi.supabase.co";
+        const SUPABASE_ANON_KEY = window.APP_CONFIG?.SUPABASE_ANON_KEY || "<PUT_YOUR_KEY_HERE>";
+
+        // initialize supabase
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // DOM refs
         const loadingOverlay = document.getElementById('loadingOverlay');
         const mainContent = document.getElementById('mainContent');
 
@@ -97,16 +79,16 @@
             if (mainContent) mainContent.style.visibility = 'visible';
         }
 
-        // Check session on load
         async function checkSession() {
             showLoading();
             try {
-                const { data: { session } } = await supabaseClient.auth.getSession();
+                const { data: { session }, error } = await supabaseClient.auth.getSession();
+                if (error) {
+                    console.error('getSession error', error);
+                }
                 if (session) {
-                    // already logged in
                     window.location.href = "dashboard.html";
                 } else {
-                    // show login
                     if (mainContent) mainContent.style.display = 'block';
                     hideLoading();
                 }
@@ -118,10 +100,11 @@
         }
         checkSession();
 
-        // Login form submit
+        // Improved login handler with explicit logging
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             showLoading();
+
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const message = document.getElementById('message');
@@ -130,19 +113,25 @@
             message.className = "mt-4 text-center text-blue-600 font-medium";
 
             try {
-                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-                if (error) {
+                const resp = await supabaseClient.auth.signInWithPassword({ email, password });
+                console.log('SignIn response:', resp);
+
+                if (resp.error) {
                     message.className = "mt-4 text-center text-red-500 font-medium";
-                    message.innerText = "त्रुटि: " + error.message;
-                } else {
+                    message.innerText = "Login failed: " + (resp.error.message || JSON.stringify(resp.error));
+                } else if (resp.data?.session) {
                     message.className = "mt-4 text-center text-green-600 font-medium";
                     message.innerText = "सफल! ड्यासबोर्डमा जाँदैँछ...";
-                    setTimeout(() => window.location.href = "dashboard.html", 1000);
+                    setTimeout(() => window.location.href = "dashboard.html", 800);
+                } else {
+                    message.className = "mt-4 text-center text-red-500 font-medium";
+                    message.innerText = "Unexpected response. Check browser console (Network tab) for details.";
+                    console.warn('Unexpected signIn response', resp);
                 }
             } catch (err) {
                 message.className = "mt-4 text-center text-red-500 font-medium";
-                message.innerText = "त्रुटि: " + (err.message || err);
-                console.error(err);
+                message.innerText = "Error: " + (err.message || err);
+                console.error('Exception during signIn:', err);
             } finally {
                 hideLoading();
             }
@@ -150,4 +139,3 @@
     </script>
 </body>
 </html>
-
